@@ -3,7 +3,7 @@ Cross-product Penalized Component Analysis (XCAN) v0.1
 coded by: Jose Camacho Paez (josecamacho@ugr.es)
           Evrim Acar Ataman (evrim.acarataman@gmail.com)
 
-last modification: 27/Jun/19
+last modification: 2/Feb/25
 
 
 Please, see the following reference for a deep explanation on the method:
@@ -21,6 +21,9 @@ The contents of the folder are:
 
 - rest of funtions are performing low-level computation.
 
+The XCAN repo needs the Poblano Toolbox, so please remember to pull with the option: --recursive
+
+git clone --recursive https://github.com/josecamachop/X-CAN.git
 
 To start, write in the Matlab command line:
 

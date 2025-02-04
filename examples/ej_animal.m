@@ -3,15 +3,30 @@
 % Component Analysis (XCAN), Submitted to Chemometrics and Intelligent 
 % Laboratory Systems, 2019.
 %
-% Needs the MEDA Toolbox and the XCAN (path should be properly set)
+% Needs the MEDA Toolbox (v1.6) and the XCAN (path should be properly set)
 %
 % If you use these data, please add a reference to the below paper:
 %
 % R. Bro, E.E. Papalexakis, E. Acar, N.D. Sidiropoulos. Coclustering-
 % a useful tool for chemometrics. Journal of Chemometrics 26(6):256-263
 %
-% coded by: Jose Camacho Paez (josecamacho@ugr.es)
-% last modification: 25/Jun/19
+% coded by: Jose Camacho (josecamacho@ugr.es)
+% last modification: 04/Feb/2025
+%
+% Copyright (C) 2025  University of Granada, Granada
+% 
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 close all
 clear
@@ -25,10 +40,10 @@ vars_l = txt(1,2:end);
 obs_l =  txt(2:end,1);
 
 % PCA scores and loadings
-scores_pca(Xa,1:2,[],2,[],obs_l,[],Inf);
-loadings_pca(Xa,1:2,2,[],vars_l,[],Inf);
+scoresPca(Xa,'PCs',1:2,'Preprocessing',2,'ObsLabel',obs_l);
+loadingsPca(Xa,'PCs',1:2,'Preprocessing',2,'VarsLabel',vars_l);
 
-[X,m] = preprocess2D(Xa,2);
+[X,m] = preprocess2D(Xa,'Preprocessing',2);
 Xa = X+ones(size(X,1),1)*m;
 
 %% Cross-product (XP) matrices
@@ -36,11 +51,11 @@ Xa = X+ones(size(X,1),1)*m;
 % XP matrices with no thresholding
 
 XXt = crossprod(X');
-plot_map(XXt)
+plotMap(XXt);
 ylabel('XXt','FontSize',20)
 
 XtX = crossprod(X);
-plot_map(XtX)
+plotMap(XtX);
 ylabel('XtX','FontSize',20)
 
 % XP matrices after thresholding
@@ -49,14 +64,14 @@ thr = 0.5;
 XXt = crossprod(X');
 r = find((XXt)<thr);
 XXt(r) = 0;
-plot_map(XXt)
+plotMap(XXt);
 ylabel('XXt','FontSize',20)
 
 thr = 0.5; 
 XtX = crossprod(X);
 r = find(abs(XtX)<thr);
 XtX(r) = 0;
-plot_map(XtX)
+plotMap(XtX);
 ylabel('XtX','FontSize',20)
 
 
@@ -73,7 +88,7 @@ for i=1:size(lambdas,2)
    [XP, XT] = xcan(Data,1:pcs(i),XtX,lambdas(1,i),XXt,lambdas(2,i));     
 
    varX = trace(Data'*Data);
-   for j = 1:pcs(i),
+   for j = 1:pcs(i)
        sPjind = find(abs(XT(:,j))==max(abs(XT(:,j))),1);
        sPj = sign(XT(sPjind,j));
        
