@@ -1,0 +1,395 @@
+
+<!DOCTYPE html
+  PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+   <!--
+This HTML was auto-generated from MATLAB code.
+To make changes, update the MATLAB code and republish this document.
+      --><title>ej_sim</title><meta name="generator" content="MATLAB 9.1"><link rel="schema.DC" href="http://purl.org/dc/elements/1.1/"><meta name="DC.date" content="2025-02-05"><meta name="DC.source" content="ej_sim.m"><style type="text/css">
+html,body,div,span,applet,object,iframe,h1,h2,h3,h4,h5,h6,p,blockquote,pre,a,abbr,acronym,address,big,cite,code,del,dfn,em,font,img,ins,kbd,q,s,samp,small,strike,strong,sub,sup,tt,var,b,u,i,center,dl,dt,dd,ol,ul,li,fieldset,form,label,legend,table,caption,tbody,tfoot,thead,tr,th,td{margin:0;padding:0;border:0;outline:0;font-size:100%;vertical-align:baseline;background:transparent}body{line-height:1}ol,ul{list-style:none}blockquote,q{quotes:none}blockquote:before,blockquote:after,q:before,q:after{content:'';content:none}:focus{outine:0}ins{text-decoration:none}del{text-decoration:line-through}table{border-collapse:collapse;border-spacing:0}
+
+html { min-height:100%; margin-bottom:1px; }
+html body { height:100%; margin:0px; font-family:Arial, Helvetica, sans-serif; font-size:10px; color:#000; line-height:140%; background:#fff none; overflow-y:scroll; }
+html body td { vertical-align:top; text-align:left; }
+
+h1 { padding:0px; margin:0px 0px 25px; font-family:Arial, Helvetica, sans-serif; font-size:1.5em; color:#d55000; line-height:100%; font-weight:normal; }
+h2 { padding:0px; margin:0px 0px 8px; font-family:Arial, Helvetica, sans-serif; font-size:1.2em; color:#000; font-weight:bold; line-height:140%; border-bottom:1px solid #d6d4d4; display:block; }
+h3 { padding:0px; margin:0px 0px 5px; font-family:Arial, Helvetica, sans-serif; font-size:1.1em; color:#000; font-weight:bold; line-height:140%; }
+
+a { color:#005fce; text-decoration:none; }
+a:hover { color:#005fce; text-decoration:underline; }
+a:visited { color:#004aa0; text-decoration:none; }
+
+p { padding:0px; margin:0px 0px 20px; }
+img { padding:0px; margin:0px 0px 20px; border:none; }
+p img, pre img, tt img, li img, h1 img, h2 img { margin-bottom:0px; } 
+
+ul { padding:0px; margin:0px 0px 20px 23px; list-style:square; }
+ul li { padding:0px; margin:0px 0px 7px 0px; }
+ul li ul { padding:5px 0px 0px; margin:0px 0px 7px 23px; }
+ul li ol li { list-style:decimal; }
+ol { padding:0px; margin:0px 0px 20px 0px; list-style:decimal; }
+ol li { padding:0px; margin:0px 0px 7px 23px; list-style-type:decimal; }
+ol li ol { padding:5px 0px 0px; margin:0px 0px 7px 0px; }
+ol li ol li { list-style-type:lower-alpha; }
+ol li ul { padding-top:7px; }
+ol li ul li { list-style:square; }
+
+.content { font-size:1.2em; line-height:140%; padding: 20px; }
+
+pre, code { font-size:12px; }
+tt { font-size: 1.2em; }
+pre { margin:0px 0px 20px; }
+pre.codeinput { padding:10px; border:1px solid #d3d3d3; background:#f7f7f7; }
+pre.codeoutput { padding:10px 11px; margin:0px 0px 20px; color:#4c4c4c; }
+pre.error { color:red; }
+
+@media print { pre.codeinput, pre.codeoutput { word-wrap:break-word; width:100%; } }
+
+span.keyword { color:#0000FF }
+span.comment { color:#228B22 }
+span.string { color:#A020F0 }
+span.untermstring { color:#B20000 }
+span.syscmd { color:#B28C00 }
+
+.footer { width:auto; padding:10px 0px; margin:25px 0px 0px; border-top:1px dotted #878787; font-size:0.8em; line-height:140%; font-style:italic; color:#878787; text-align:left; float:none; }
+.footer p { margin:0px; }
+.footer a { color:#878787; }
+.footer a:hover { color:#878787; text-decoration:underline; }
+.footer a:visited { color:#878787; }
+
+table th { padding:7px 5px; text-align:left; vertical-align:middle; border: 1px solid #d6d4d4; font-weight:bold; }
+table td { padding:7px 5px; text-align:left; vertical-align:top; border:1px solid #d6d4d4; }
+
+
+
+
+
+  </style></head><body><div class="content"><h2>Contents</h2><div><ul><li><a href="#1">XCAN example of simulated data</a></li><li><a href="#2">Simulated data</a></li><li><a href="#3">Cross-product (XP) matrices</a></li><li><a href="#4">XCAN: PCA vs XP-constraints</a></li><li><a href="#5">XCAN: Number of components</a></li><li><a href="#6">XCAN: Thresholded XP</a></li></ul></div><h2 id="1">XCAN example of simulated data</h2><p>J. Camacho, E. Acar, M. Rasmussen, R. Bro. Cross-product Penalized Component Analysis (XCAN), Submitted to Chemometrics and Intelligent Laboratory Systems, 2019.</p><p>Needs the MEDA Toolbox (v1.6), the XCAN (path should be properly set, see README file) and Poblano Toolbox (v1.2)</p><p>If you use these data, please add a reference to the above paper.</p><p>coded by: Jose Camacho Paez (<a href="mailto:josecamacho@ugr.es">josecamacho@ugr.es</a>) last modification: 04/Feb/2025</p><p>Copyright (C) 2025  University of Granada, Granada</p><p>This program is free software: you can redistribute it and/or modify it under the terms of the GNU General Public License as published by the Free Software Foundation, either version 3 of the License, or (at your option) any later version.</p><p>This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</p><p>You should have received a copy of the GNU General Public License along with this program.  If not, see <a href="http://www.gnu.org/licenses/">http://www.gnu.org/licenses/</a>.</p><pre class="codeinput">close <span class="string">all</span>
+clear
+clc
+</pre><h2 id="2">Simulated data</h2><pre class="codeinput">vars=5;
+obs=5;
+
+X=simuleMV(obs,vars,<span class="string">'LevelCorr'</span>,10);
+X2=simuleMV(obs,vars,<span class="string">'LevelCorr'</span>,10);
+X3=simuleMV(obs,vars,<span class="string">'LevelCorr'</span>,10);
+
+X = [X zeros(5,5);zeros(5,5) X2;zeros(5,5) 2*X3] + 0.15*randn(15,10);
+
+<span class="comment">%save data/Simul X</span>
+</pre><h2 id="3">Cross-product (XP) matrices</h2><pre class="codeinput">load <span class="string">data/Simul</span>
+
+XXt = crossprod(X');
+plotMap(XXt);
+ylabel(<span class="string">'XXt'</span>,<span class="string">'FontSize'</span>,20);
+
+XX = crossprod(X);
+plotMap(XX);
+ylabel(<span class="string">'XtX'</span>,<span class="string">'FontSize'</span>,20);
+</pre><img vspace="5" hspace="5" src="ej_sim_01.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="ej_sim_02.png" style="width:560px;height:420px;" alt=""> <h2 id="4">XCAN: PCA vs XP-constraints</h2><pre class="codeinput">lambda = [0 .01 0 .01];
+lambda2 = [0 0 .1 .1];
+R = [3 3 3 3]
+close <span class="string">all</span>
+clc
+
+varX = trace(X'*X);
+<span class="keyword">for</span> i=1:length(lambda)
+
+    [XP, XT]    = xcan(X,1:R(i),XX,lambda(i),XXt,lambda2(i));
+
+    Xp = 0;
+    <span class="keyword">for</span> j=1:R(i)
+        Xp = Xp + (XT(:,j)*pinv(XT(:,j)'*XT(:,j))*XT(:,j)')*X*(XP(:,j)*pinv(XP(:,j)'*XP(:,j))*XP(:,j)');
+    <span class="keyword">end</span>
+    varP = trace(Xp'*Xp);
+
+    figure, subplot(2,1,1), title(sprintf(<span class="string">'\\lambda_c: %g, \\lambda_r: %g, variance: %.0f%%'</span>,lambda(i),lambda2(i),100*varP/varX),<span class="string">'FontSize'</span>,20)
+
+    hold <span class="string">on</span>,  bar(XT), ylabel(<span class="string">'Scores'</span>,<span class="string">'FontSize'</span>,16), axis <span class="string">tight</span>, subplot(2,1,2), bar(XP), ylabel(<span class="string">'Loadings'</span>,<span class="string">'FontSize'</span>,16), axis <span class="string">tight</span>,
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+R =
+
+     3     3     3     3
+
+ Iter  FuncEvals       F(X)          ||G(X)||/N        
+------ --------- ---------------- ----------------
+     0         1       0.05474566       0.00000000
+ Iter  FuncEvals       F(X)          ||G(X)||/N        
+------ --------- ---------------- ----------------
+     0         1       0.27676406       0.01799961
+   100       232       0.09147808       0.00000590
+   141       314       0.09147796       0.00000007
+ Iter  FuncEvals       F(X)          ||G(X)||/N        
+------ --------- ---------------- ----------------
+     0         1      16.86905771       1.77379563
+   100       324       0.37842918       0.00462495
+   200       605       0.37409602       0.00189485
+   300       872       0.37321550       0.00235434
+   400      1100       0.37309531       0.00006089
+   500      1302       0.37309109       0.00008542
+   522      1346       0.37309098       0.00000673
+ Iter  FuncEvals       F(X)          ||G(X)||/N        
+------ --------- ---------------- ----------------
+     0         1      17.09107612       1.77388696
+   100       326       0.42917978       0.00335510
+   200       606       0.42752022       0.00236893
+   300       854       0.42718839       0.00080905
+   400      1088       0.42711808       0.00033259
+   500      1304       0.42709373       0.00018632
+   600      1512       0.42708885       0.00003591
+   700      1713       0.42708749       0.00002917
+   759      1831       0.42708745       0.00000248
+</pre><img vspace="5" hspace="5" src="ej_sim_03.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="ej_sim_04.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="ej_sim_05.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="ej_sim_06.png" style="width:560px;height:420px;" alt=""> <h2 id="5">XCAN: Number of components</h2><pre class="codeinput">lambda = [.01 .01 .01];
+lambda2 = [.1 .1 .1];
+R = [1 2 3]
+close <span class="string">all</span>
+clc
+
+varX = trace(X'*X);
+<span class="keyword">for</span> i=1:length(lambda)
+
+    [XP, XT]    = xcan(X,1:R(i),XX,lambda(i),XXt,lambda2(i));
+
+
+    Xp = 0;
+    <span class="keyword">for</span> j=1:R(i)
+        Xp = Xp + (XT(:,j)*pinv(XT(:,j)'*XT(:,j))*XT(:,j)')*X*(XP(:,j)*pinv(XP(:,j)'*XP(:,j))*XP(:,j)');
+    <span class="keyword">end</span>
+    varP = trace(Xp'*Xp);
+
+    XP = [XP zeros(size(XP,1),3-i)];
+    XT = [XT zeros(size(XT,1),3-i)];
+
+    figure, subplot(2,1,1), title(sprintf(<span class="string">'\\lambda_c: %g, \\lambda_r: %g, variance: %.0f%%'</span>,lambda(i),lambda2(i),100*varP/varX),<span class="string">'FontSize'</span>,20)
+
+    hold <span class="string">on</span>,  bar(XT), ylabel(<span class="string">'Scores'</span>,<span class="string">'FontSize'</span>,16), axis <span class="string">tight</span>, subplot(2,1,2), bar(XP), ylabel(<span class="string">'Loadings'</span>,<span class="string">'FontSize'</span>,16), axis <span class="string">tight</span>,
+<span class="keyword">end</span>
+</pre><pre class="codeoutput">
+R =
+
+     1     2     3
+
+ Iter  FuncEvals       F(X)          ||G(X)||/N        
+------ --------- ---------------- ----------------
+     0         1       1.20401753       0.85216804
+    76       199       0.48574994       0.00000837
+ Iter  FuncEvals       F(X)          ||G(X)||/N        
+------ --------- ---------------- ----------------
+     0         1       8.70193449       2.04902533
+   100       316       0.43749803       0.00183817
+   200       574       0.43719719       0.00153684
+   300       789       0.43718566       0.00026002
+   364       919       0.43718537       0.00000361
+ Iter  FuncEvals       F(X)          ||G(X)||/N        
+------ --------- ---------------- ----------------
+     0         1      17.09107612       1.77388696
+   100       326       0.42917978       0.00335510
+   200       606       0.42752022       0.00236893
+   300       854       0.42718839       0.00080905
+   400      1088       0.42711808       0.00033259
+   500      1304       0.42709373       0.00018632
+   600      1512       0.42708885       0.00003591
+   700      1713       0.42708749       0.00002917
+   759      1831       0.42708745       0.00000248
+</pre><img vspace="5" hspace="5" src="ej_sim_07.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="ej_sim_08.png" style="width:560px;height:420px;" alt=""> <img vspace="5" hspace="5" src="ej_sim_09.png" style="width:560px;height:420px;" alt=""> <h2 id="6">XCAN: Thresholded XP</h2><pre class="codeinput">load <span class="string">data/Simul</span>
+
+thr = 0.5;
+XXt = crossprod(X');
+r = find(abs(XXt)&lt;thr);
+XXt(r) = 0;
+plotMap(XXt);
+ylabel(<span class="string">'XXt'</span>,<span class="string">'FontSize'</span>,20);
+
+XX = crossprod(X);
+r = find(abs(XX)&lt;thr);
+XX(r) = 0;
+plotMap(XX);
+ylabel(<span class="string">'XtX'</span>,<span class="string">'FontSize'</span>,20);
+
+lambda = [.01];
+lambda2 = [.1];
+R = [3];
+close <span class="string">all</span>
+clc
+
+varX = trace(X'*X);
+<span class="keyword">for</span> i=1:length(lambda)
+
+    [XP, XT]    = xcan(X,1:R(i),XX,lambda(i),XXt,lambda2(i));
+
+    Xp = 0;
+    <span class="keyword">for</span> j=1:R(i)
+        Xp = Xp + (XT(:,j)*pinv(XT(:,j)'*XT(:,j))*XT(:,j)')*X*(XP(:,j)*pinv(XP(:,j)'*XP(:,j))*XP(:,j)');
+    <span class="keyword">end</span>
+    varP = trace(Xp'*Xp);
+
+    figure, subplot(2,1,1), title(sprintf(<span class="string">'\\lambda_c: %g, \\lambda_r: %g, variance: %.0f%%'</span>,lambda(i),lambda2(i),100*varP/varX),<span class="string">'FontSize'</span>,20)
+
+    hold <span class="string">on</span>,  bar(XT), ylabel(<span class="string">'Scores'</span>,<span class="string">'FontSize'</span>,16), axis <span class="string">tight</span>, subplot(2,1,2), bar(XP), ylabel(<span class="string">'Loadings'</span>,<span class="string">'FontSize'</span>,16), axis <span class="string">tight</span>,
+<span class="keyword">end</span>
+</pre><pre class="codeoutput"> Iter  FuncEvals       F(X)          ||G(X)||/N        
+------ --------- ---------------- ----------------
+     0         1     244.59146184      15.80344432
+   100       291       0.42966419       0.00007895
+   200       510       0.42963951       0.00005659
+   211       532       0.42963949       0.00000234
+</pre><img vspace="5" hspace="5" src="ej_sim_10.png" style="width:560px;height:420px;" alt=""> <p class="footer"><br><a href="http://www.mathworks.com/products/matlab/">Published with MATLAB&reg; R2016b</a><br></p></div><!--
+##### SOURCE BEGIN #####
+%% XCAN example of simulated data
+% J. Camacho, E. Acar, M. Rasmussen, R. Bro. Cross-product Penalized 
+% Component Analysis (XCAN), Submitted to Chemometrics and Intelligent 
+% Laboratory Systems, 2019.
+%
+% Needs the MEDA Toolbox (v1.6), the XCAN (path should be properly set, see
+% README file) and Poblano Toolbox (v1.2)
+%
+% If you use these data, please add a reference to the above paper.
+%
+% coded by: Jose Camacho Paez (josecamacho@ugr.es)
+% last modification: 04/Feb/2025
+%
+% Copyright (C) 2025  University of Granada, Granada
+% 
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+
+close all
+clear
+clc
+
+%% Simulated data
+
+vars=5;
+obs=5;
+
+X=simuleMV(obs,vars,'LevelCorr',10);
+X2=simuleMV(obs,vars,'LevelCorr',10);
+X3=simuleMV(obs,vars,'LevelCorr',10);
+
+X = [X zeros(5,5);zeros(5,5) X2;zeros(5,5) 2*X3] + 0.15*randn(15,10);
+
+%save data/Simul X
+
+
+%% Cross-product (XP) matrices
+
+load data/Simul
+
+XXt = crossprod(X');
+plotMap(XXt);
+ylabel('XXt','FontSize',20);
+
+XX = crossprod(X);
+plotMap(XX);
+ylabel('XtX','FontSize',20);
+
+
+%% XCAN: PCA vs XP-constraints
+
+lambda = [0 .01 0 .01];
+lambda2 = [0 0 .1 .1];
+R = [3 3 3 3]
+close all
+clc
+
+varX = trace(X'*X);
+for i=1:length(lambda)
+    
+    [XP, XT]    = xcan(X,1:R(i),XX,lambda(i),XXt,lambda2(i));
+    
+    Xp = 0;
+    for j=1:R(i)
+        Xp = Xp + (XT(:,j)*pinv(XT(:,j)'*XT(:,j))*XT(:,j)')*X*(XP(:,j)*pinv(XP(:,j)'*XP(:,j))*XP(:,j)');
+    end
+    varP = trace(Xp'*Xp);
+    
+    figure, subplot(2,1,1), title(sprintf('\\lambda_c: %g, \\lambda_r: %g, variance: %.0f%%',lambda(i),lambda2(i),100*varP/varX),'FontSize',20)
+    
+    hold on,  bar(XT), ylabel('Scores','FontSize',16), axis tight, subplot(2,1,2), bar(XP), ylabel('Loadings','FontSize',16), axis tight,
+end
+
+
+%% XCAN: Number of components
+
+lambda = [.01 .01 .01];
+lambda2 = [.1 .1 .1];
+R = [1 2 3]
+close all
+clc
+
+varX = trace(X'*X);
+for i=1:length(lambda)
+    
+    [XP, XT]    = xcan(X,1:R(i),XX,lambda(i),XXt,lambda2(i));
+        
+        
+    Xp = 0;
+    for j=1:R(i)
+        Xp = Xp + (XT(:,j)*pinv(XT(:,j)'*XT(:,j))*XT(:,j)')*X*(XP(:,j)*pinv(XP(:,j)'*XP(:,j))*XP(:,j)');
+    end
+    varP = trace(Xp'*Xp);
+
+    XP = [XP zeros(size(XP,1),3-i)];
+    XT = [XT zeros(size(XT,1),3-i)];
+    
+    figure, subplot(2,1,1), title(sprintf('\\lambda_c: %g, \\lambda_r: %g, variance: %.0f%%',lambda(i),lambda2(i),100*varP/varX),'FontSize',20)
+    
+    hold on,  bar(XT), ylabel('Scores','FontSize',16), axis tight, subplot(2,1,2), bar(XP), ylabel('Loadings','FontSize',16), axis tight,
+end
+
+
+%% XCAN: Thresholded XP
+
+load data/Simul
+
+thr = 0.5; 
+XXt = crossprod(X');
+r = find(abs(XXt)<thr);
+XXt(r) = 0;
+plotMap(XXt);
+ylabel('XXt','FontSize',20);
+
+XX = crossprod(X);
+r = find(abs(XX)<thr);
+XX(r) = 0;
+plotMap(XX);
+ylabel('XtX','FontSize',20);
+
+lambda = [.01];
+lambda2 = [.1];
+R = [3];
+close all
+clc
+
+varX = trace(X'*X);
+for i=1:length(lambda)
+    
+    [XP, XT]    = xcan(X,1:R(i),XX,lambda(i),XXt,lambda2(i));
+    
+    Xp = 0;
+    for j=1:R(i)
+        Xp = Xp + (XT(:,j)*pinv(XT(:,j)'*XT(:,j))*XT(:,j)')*X*(XP(:,j)*pinv(XP(:,j)'*XP(:,j))*XP(:,j)');
+    end
+    varP = trace(Xp'*Xp);
+    
+    figure, subplot(2,1,1), title(sprintf('\\lambda_c: %g, \\lambda_r: %g, variance: %.0f%%',lambda(i),lambda2(i),100*varP/varX),'FontSize',20)
+         
+    hold on,  bar(XT), ylabel('Scores','FontSize',16), axis tight, subplot(2,1,2), bar(XP), ylabel('Loadings','FontSize',16), axis tight,  
+end
+
+##### SOURCE END #####
+--></body></html>

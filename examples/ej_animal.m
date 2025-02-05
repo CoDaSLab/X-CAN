@@ -3,7 +3,8 @@
 % Component Analysis (XCAN), Submitted to Chemometrics and Intelligent 
 % Laboratory Systems, 2019.
 %
-% Needs the MEDA Toolbox (v1.6) and the XCAN (path should be properly set)
+% Needs the MEDA Toolbox (v1.6), the XCAN (path should be properly set, see
+% README file) and Poblano Toolbox (v1.2)
 %
 % If you use these data, please add a reference to the below paper:
 %
@@ -52,11 +53,11 @@ Xa = X+ones(size(X,1),1)*m;
 
 XXt = crossprod(X');
 plotMap(XXt);
-ylabel('XXt','FontSize',20)
+ylabel('XXt','FontSize',20);
 
 XtX = crossprod(X);
 plotMap(XtX);
-ylabel('XtX','FontSize',20)
+ylabel('XtX','FontSize',20);
 
 % XP matrices after thresholding
 
@@ -65,14 +66,14 @@ XXt = crossprod(X');
 r = find((XXt)<thr);
 XXt(r) = 0;
 plotMap(XXt);
-ylabel('XXt','FontSize',20)
+ylabel('XXt','FontSize',20);
 
 thr = 0.5; 
 XtX = crossprod(X);
 r = find(abs(XtX)<thr);
 XtX(r) = 0;
 plotMap(XtX);
-ylabel('XtX','FontSize',20)
+ylabel('XtX','FontSize',20);
 
 
 %% XCAN: X-thresholding

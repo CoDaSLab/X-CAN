@@ -25,6 +25,8 @@ The XCAN repo needs the Poblano Toolbox, so please remember to pull with the opt
 
 git clone --recursive https://github.com/josecamachop/X-CAN.git
 
+Or simply download the Poblano repository, version 1.2 (from https://github.com/sandialabs/poblano_toolbox/releases/tag/v1.2), in the subfolder poblano_toolbox.
+
 To start, write in the Matlab command line:
 
 # help xcan 

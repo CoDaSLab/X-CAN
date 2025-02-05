@@ -3,7 +3,8 @@
 % Component Analysis (XCAN), Submitted to Chemometrics and Intelligent 
 % Laboratory Systems, 2019.
 %
-% Needs the MEDA Toolbox and the XCAN (path should be properly set)
+% Needs the MEDA Toolbox (v1.6), the XCAN (path should be properly set, see
+% README file) and Poblano Toolbox (v1.2)
 %
 % If you use these data, please add a reference to the below paper:
 % 
@@ -37,9 +38,25 @@
 % value throughout the capture period. The definition of the variables is
 % introduced in Tackling the Big Data 4 Vs for Anomaly Detection. INFOCOM'2014 Workshop on 
 % Security and Privacy in Big Data, Toronto (Canada), 2014.
-
+%
 % coded by: Jose Camacho Paez (josecamacho@ugr.es)
-% last modification: 25/Jun/19
+% last modification: 04/Feb/2025
+%
+% Copyright (C) 2025  University of Granada, Granada
+% 
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 %% Inicialization, remember to set the path of the toolbox
 
@@ -52,9 +69,9 @@ clc
 
 load data/VAST
 
-xcs = preprocess2D(x,2,weight_alt);
+xcs = preprocess2D(x,'Preprocess',2,'Weights',weight_alt);
 
-var_pca(xcs,0:30,0); % 12 PCS could be a choice
+varPca(xcs,'Pcs',0:30,'Preprocessing',0); % 12 PCS could be a choice
 
 
 %% Cross-product (XP) matrices
@@ -63,12 +80,12 @@ var_pca(xcs,0:30,0); % 12 PCS could be a choice
 
 meda_map = crossprod(xcs);
 [meda_map2,ord] = seriation(meda_map);
-plot_map(meda_map2)
-ylabel('XtX','FontSize',20)
+plotMap(meda_map2);
+ylabel('XtX','FontSize',20);
 
 map_obs = crossprod(xcs');
-plot_map(seriation(map_obs))
-ylabel('XXt','FontSize',16)
+plotMap(seriation(map_obs));
+ylabel('XXt','FontSize',16);
 
 save data/vast_stuff_xp
 
@@ -78,14 +95,14 @@ thr = 0.7;
 r = find(meda_map<thr);
 meda_map(r) = 0;
 [meda_map2,ord] = seriation(meda_map);
-plot_map(meda_map2)
-ylabel('XtX','FontSize',16)
+plotMap(meda_map2);
+ylabel('XtX','FontSize',16);
 
 thr = 0.3; 
 r = find(map_obs<thr);
 map_obs(r) = 0;
-plot_map(seriation(map_obs))
-ylabel('XXt','FontSize',16)
+plotMap(seriation(map_obs));
+ylabel('XXt','FontSize',16);
 
 save data/vast_stuff_thr_xp
 
@@ -106,7 +123,7 @@ c = 0.7;
 [P,T] =  gpca(xcs,stg,1:4);
 
 varX = trace(xcs'*xcs); 
-for i=1:4,
+for i=1:4
     figure
     t = T(:,i); % score
     lim = tinv(0.99,size(t,1)-1)*std(t)*sqrt(1+1/size(t,1));
@@ -134,11 +151,11 @@ ResidualVar = 100*(varE)/varX
 
 lambda = [.5]
 varX = trace(xcs'*xcs); 
-for k=1:length(lambda),
+for k=1:length(lambda)
     
     [P, T] = xcan(xcs,1:4,meda_map,lambda(k),map_obs,lambda(k));
     
-    for i=1:4,
+    for i=1:4
         figure
         t = T(:,i); % score
         lim = tinv(0.99,size(t,1)-1)*std(t)*sqrt(1+1/size(t,1));
@@ -168,11 +185,11 @@ end
 
 lambda = [.5]
 varX = trace(xcs'*xcs); 
-for k=1:length(lambda),
+for k=1:length(lambda)
     
     [P, T] = xcan(xcs,1:4,meda_map,lambda(k),map_obs,0);
 
-    for i=1:4,
+    for i=1:4
         figure
         t = T(:,i); % score
         lim = tinv(0.99,size(t,1)-1)*std(t)*sqrt(1+1/size(t,1));

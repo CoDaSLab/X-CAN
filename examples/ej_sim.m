@@ -3,12 +3,29 @@
 % Component Analysis (XCAN), Submitted to Chemometrics and Intelligent 
 % Laboratory Systems, 2019.
 %
-% Needs the MEDA Toolbox and the XCAN (path should be properly set)
+% Needs the MEDA Toolbox (v1.6), the XCAN (path should be properly set, see
+% README file) and Poblano Toolbox (v1.2)
 %
 % If you use these data, please add a reference to the above paper.
-
+%
 % coded by: Jose Camacho Paez (josecamacho@ugr.es)
-% last modification: 27/Jun/19
+% last modification: 04/Feb/2025
+%
+% Copyright (C) 2025  University of Granada, Granada
+% 
+% This program is free software: you can redistribute it and/or modify
+% it under the terms of the GNU General Public License as published by
+% the Free Software Foundation, either version 3 of the License, or
+% (at your option) any later version.
+% 
+% This program is distributed in the hope that it will be useful,
+% but WITHOUT ANY WARRANTY; without even the implied warranty of
+% MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+% GNU General Public License for more details.
+% 
+% You should have received a copy of the GNU General Public License
+% along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
 
 close all
 clear
@@ -19,9 +36,9 @@ clc
 vars=5;
 obs=5;
 
-X=simuleMV(obs,vars,10);
-X2=simuleMV(obs,vars,10);
-X3=simuleMV(obs,vars,10);
+X=simuleMV(obs,vars,'LevelCorr',10);
+X2=simuleMV(obs,vars,'LevelCorr',10);
+X3=simuleMV(obs,vars,'LevelCorr',10);
 
 X = [X zeros(5,5);zeros(5,5) X2;zeros(5,5) 2*X3] + 0.15*randn(15,10);
 
@@ -33,12 +50,12 @@ X = [X zeros(5,5);zeros(5,5) X2;zeros(5,5) 2*X3] + 0.15*randn(15,10);
 load data/Simul
 
 XXt = crossprod(X');
-plot_map(XXt)
-ylabel('XXt','FontSize',20)
+plotMap(XXt);
+ylabel('XXt','FontSize',20);
 
 XX = crossprod(X);
-plot_map(XX)
-ylabel('XtX','FontSize',20)
+plotMap(XX);
+ylabel('XtX','FontSize',20);
 
 
 %% XCAN: PCA vs XP-constraints
@@ -55,7 +72,7 @@ for i=1:length(lambda)
     [XP, XT]    = xcan(X,1:R(i),XX,lambda(i),XXt,lambda2(i));
     
     Xp = 0;
-    for j=1:R(i),
+    for j=1:R(i)
         Xp = Xp + (XT(:,j)*pinv(XT(:,j)'*XT(:,j))*XT(:,j)')*X*(XP(:,j)*pinv(XP(:,j)'*XP(:,j))*XP(:,j)');
     end
     varP = trace(Xp'*Xp);
@@ -81,7 +98,7 @@ for i=1:length(lambda)
         
         
     Xp = 0;
-    for j=1:R(i),
+    for j=1:R(i)
         Xp = Xp + (XT(:,j)*pinv(XT(:,j)'*XT(:,j))*XT(:,j)')*X*(XP(:,j)*pinv(XP(:,j)'*XP(:,j))*XP(:,j)');
     end
     varP = trace(Xp'*Xp);
@@ -103,14 +120,14 @@ thr = 0.5;
 XXt = crossprod(X');
 r = find(abs(XXt)<thr);
 XXt(r) = 0;
-plot_map(XXt)
-ylabel('XXt','FontSize',20)
+plotMap(XXt);
+ylabel('XXt','FontSize',20);
 
 XX = crossprod(X);
 r = find(abs(XX)<thr);
 XX(r) = 0;
-plot_map(XX)
-ylabel('XtX','FontSize',20)
+plotMap(XX);
+ylabel('XtX','FontSize',20);
 
 lambda = [.01];
 lambda2 = [.1];
@@ -124,7 +141,7 @@ for i=1:length(lambda)
     [XP, XT]    = xcan(X,1:R(i),XX,lambda(i),XXt,lambda2(i));
     
     Xp = 0;
-    for j=1:R(i),
+    for j=1:R(i)
         Xp = Xp + (XT(:,j)*pinv(XT(:,j)'*XT(:,j))*XT(:,j)')*X*(XP(:,j)*pinv(XP(:,j)'*XP(:,j))*XP(:,j)');
     end
     varP = trace(Xp'*Xp);
